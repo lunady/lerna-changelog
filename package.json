@@ -4,7 +4,8 @@
   "description": "Generate a changelog for a lerna monorepo",
   "keywords": [
     "changelog",
-    "lerna"
+    "lerna",
+    "src"
   ],
   "homepage": "https://github.com/lerna/lerna-changelog#readme",
   "bugs": {

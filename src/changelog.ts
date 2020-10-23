@@ -35,17 +35,29 @@ export default class Changelog {
     const to = options.tagTo || "HEAD";
 
     const releases = await this.listReleases(from, to);
-
     return this.renderer.renderMarkdown(releases);
   }
 
   private async getCommitInfos(from: string, to: string): Promise<CommitInfo[]> {
+    console.log("---start !!!!---");
     // Step 1: Get list of commits between tag A and B (local)
+    //  {
+    //     sha: 'cadf3de',
+    //     refName: '',
+    //     summary: 'Bump @types/jest from 24.9.1 to 25.1.3 (#252)',
+    //     date: '2020-03-04'
+    //   }
     const commits = this.getListOfCommits(from, to);
-
+    console.log("commits", commits);
     // Step 2: Find tagged commits (local)
+    //  {
+    //     commitSHA: 'cadf3de',
+    //     message: 'Bump @types/jest from 24.9.1 to 25.1.3 (#252)',
+    //     tags: undefined,
+    //     issueNumber: '252',
+    //     date: '2020-03-04'
+    //   }
     const commitInfos = this.toCommitInfos(commits);
-
     // Step 3: Download PR data (remote)
     await this.downloadIssueData(commitInfos);
 
@@ -95,6 +107,7 @@ export default class Changelog {
     // Determine the tags range to get the commits for. Custom from/to can be
     // provided via command-line options.
     // Default is "from last tag".
+    console.log("getListOfCommits from-to:  ", from, to);
     return Git.listCommits(from, to);
   }
 
@@ -191,7 +204,7 @@ export default class Changelog {
         releaseMap[currentTag].commits.push(commit);
       }
     }
-
+    // console.log("releaseMap----------->", releaseMap);
     return Object.keys(releaseMap).map(tag => releaseMap[tag]);
   }
 
@@ -233,6 +246,8 @@ export default class Changelog {
   private async fillInContributors(releases: Release[]) {
     for (const release of releases) {
       release.contributors = await this.getCommitters(release.commits);
+      console.log("============================");
+      console.log(release);
     }
   }
 }

@@ -10,7 +10,6 @@ import ConfigurationError from "./configuration-error";
 
 export async function run() {
   const yargs = require("yargs");
-
   const argv = yargs
     .usage("lerna-changelog [options]")
     .options({
@@ -65,12 +64,14 @@ export async function run() {
     let config = loadConfig({
       nextVersionFromMetadata: argv["next-version-from-metadata"],
     });
-
+    console.log("config---->", config);
     if (argv["next-version"]) {
       config.nextVersion = argv["next-version"];
     }
 
     let result = await new Changelog(config).createMarkdown(options);
+
+    console.log("结果---->", result);
 
     let highlighted = highlight(result, {
       language: "Markdown",
@@ -81,7 +82,9 @@ export async function run() {
       },
     });
 
-    console.log(highlighted);
+    console.log("highlighted=-------------->", highlighted);
+    // TODO: 写入
+    console.log("<-----------------end=-------------->");
   } catch (e) {
     if (e instanceof ConfigurationError) {
       console.log(chalk.red(e.message));

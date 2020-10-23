@@ -47,6 +47,7 @@ export function parseLogMessage(commit: string): CommitListItem | null {
 export function listCommits(from: string, to: string = ""): CommitListItem[] {
   // Prints "hash<short-hash> ref<ref-name> message<summary> date<date>"
   // This format is used in `getCommitInfos` for easily analize the commit.
+  console.log("from-to:  ", from, to);
   return execa
     .sync("git", [
       "log",

@@ -1,5 +1,7 @@
 .changelog
 lib
+.idea
+.DS_Store
 
 ### Node template
 # Logs

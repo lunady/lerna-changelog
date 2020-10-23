@@ -36,6 +36,9 @@ export default class GithubAPI {
 
   constructor(config: Options) {
     this.cacheDir = config.cacheDir && path.join(config.rootPath, config.cacheDir, "github");
+    console.log("------------------------------------------");
+    console.log("GithubAPI.cacheDir是这个------------------", this.cacheDir, config.cacheDir, config.rootPath);
+    console.log("------------------------------------------");
     this.auth = this.getAuthToken();
     if (!this.auth) {
       throw new ConfigurationError("Must provide GITHUB_AUTH");
@@ -72,3 +75,4 @@ export default class GithubAPI {
     return process.env.GITHUB_AUTH || "";
   }
 }
+
